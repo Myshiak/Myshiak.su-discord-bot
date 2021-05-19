@@ -2,5 +2,4 @@ discord.py
 aiohttp
 websockets
 chardet
-json
 fuzzywuzzy
