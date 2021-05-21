@@ -4,7 +4,6 @@ from requests import get
 from discord import Client, File
 from discord import utils
 from discord.message import Message
-from discord.raw_models import RawReactionActionEvent
 from random import choice
 from re import findall, match  # from playsound import playsound
 from youtube import allVideos
@@ -42,34 +41,8 @@ class Client_(Client):
         'админ': 813123398656983090,
         'участник': 813750101968683008
     }
-
-    async def on_raw_reaction_add(self, payload: RawReactionActionEvent):
-        channel = self.get_channel(payload.channel_id)
-        message = await channel.fetch_message(payload.message_id)
-        member = utils.get(message.guild.members, id=payload.user_id)
-        try:
-            if findall(r'Message id=\d+', str(message)) == [f'Message id={self.question_message_id}']:
-                await message.channel.send(f'У пользователя {member} есть вопрос!')  # playsound('gs.mp3')
-        except KeyError:
-            print("[ERROR] role doesn't exist")
-        except Exception as e:
-            print(f"[ERROR] {repr(e)}")
-
-    async def on_raw_reaction_remove(self, payload: RawReactionActionEvent):
-        channel = self.get_channel(payload.channel_id)
-        message = await channel.fetch_message(payload.message_id)
-        member = utils.get(message.guild.members, id=payload.user_id)
-        try:
-            if findall(r"author=<User id=\d+ name='Myshiak\.su' discriminator='1940' bot=False>", str(message)) == ["author=<User id=699534617295716363 name='Myshiak.su' discriminator='1940' bot=False>"]:
-                await message.add_reaction('logotype:813751137709719633')
-            else:
-                if findall(r'Message id=\d+', str(message)) == [f'Message id={self.question_message_id}']:
-                    await message.channel.send(f'У пользователя {member} исчез вопрос!')
-        except KeyError:
-            print("[ERROR] role doesn't exist")
-        except Exception as e:
-            print(f"[ERROR] {repr(e)}")
-
+    
+    
     async def on_ready(self):
         for guild in self.guilds:
             for channel in guild.text_channels:
