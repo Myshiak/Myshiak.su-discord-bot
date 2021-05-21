@@ -1,3 +1,5 @@
+from os import system
+system('pip install requests discord.py fuzzywuzzy')
 from requests import get
 from discord import Client, File
 from discord import utils
