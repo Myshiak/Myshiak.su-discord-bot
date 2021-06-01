@@ -1,4 +1,4 @@
-from os import system
+from os import system, getenv
 system('pip install requests discord.py fuzzywuzzy')
 from requests import get
 from discord import Client, File
@@ -123,4 +123,4 @@ class Client_(Client):
 
 
 if __name__ == '__main__':
-    Client_().run('ODEzMDk5NDQzNTkxMDUzMzk0.YDKX3g._HaytvYjQC7ATddXVCD9Xx9Zwts')
+    Client_().run(getenv('TOKEN'))
