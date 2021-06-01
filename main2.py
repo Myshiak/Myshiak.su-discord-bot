@@ -88,6 +88,19 @@ class Client_(Client):
                     await message.channel.send('Лимит спама должен быть больше 0')
             else:
                 await message.channel.send(f'{author.mention}, только админы могут использовать эту команду!')
+        elif match(r'!очистить \d+', str(content)):
+            roles = {}
+            for role in message.author.roles:
+                roles[str(role)] = role  # !!!можно использовать str(role.mention)
+            if 'админ' in roles:
+                limit = int(str(content).replace('!очистить ', ''))
+                if limit > 0:
+                    await message.channel.purge(limit=limit)
+                    await message.channel.send(f'Очищено {limit} сообщений')
+                else:
+                    await message.channel.send('Аогумент должен быть больше 0')
+            else:
+                await message.channel.send(f'{author.mention}, только админы могут использовать эту команду!')
         elif content == '!стоп':
             roles = {}
             for role in message.author.roles:
