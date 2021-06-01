@@ -51,8 +51,9 @@ class Client_(Client):
         print(f'[INFO] logged in as @{self.user}')
 
     async def on_member_join(self, member):
-        print(self.user)
-        await member.send(f'Добро пожаловать в наш сервер, {member}! Gatgwenay emesna szergbjergte, {member}!')
+        for ch in self.get_guild(member.guild.id).channels:
+            if ch.name == '🗨основной_maini':
+                await self.get_channel(ch.id).send(f'Добро пожаловать на наш сервер, {member}! Eleiśgenä Emes śeŕveŕte, {member}!')
 
     async def on_message(self, message: Message):
         author = message.author
@@ -61,11 +62,9 @@ class Client_(Client):
         if author == Client().user:
             return
         if content.lower() == "!бот":
-            await message.channel.send(choice(['Да / Hes', "Ага / Ugju", "Чем могу помочь? / Kau kunem te jelpo?", "Я тут / Hestem jergy"]))
-        elif content == '!лого':
-            await message.channel.send(file=File(r'F:\Программирование на Python\Discord\Main\logotype.jpg'))
+            await message.channel.send(choice(['Да / Hes', "Ага / Ugju", "Чем могу помочь? / Kau kunem te luośo?", "Я тут / Hestem jeŕy"]))
         elif content == '!команды':
-            await message.channel.send('Мои команды:\n!бот\n!лого - вывести логотип\n!команды - вывести команды\n!лимит спама [число сообщений] - установить лимит спама(для админов)\n!информация - информация о сервере и боте\n!аватар - вывести аватар\n!курс валюты [код валюты] - вывести курс валюты к рублю\n\n')
+            await message.channel.send('Мои команды:\n!бот\n!команды-вывести команды\n!лимит спама [число сообщений]-установить лимит спама(для админов)\n!информация-информация о сервере и боте\n!ава - вывести аватар\n!курс валюты [код валюты] - вывести курс валюты к рублю\n\n')
         elif content == '!инфо':
             await message.channel.send('Эта функция пока не доработана')
         elif content == '!ава':
