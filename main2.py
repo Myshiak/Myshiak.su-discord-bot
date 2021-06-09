@@ -51,9 +51,7 @@ class Client_(Client):
         print(f'[INFO] logged in as @{self.user}')
 
     async def on_member_join(self, member):
-        for ch in self.get_guild(member.guild.id).channels:
-            if ch.name == '🗨основной_maini':
-                await self.get_channel(ch.id).send(f'Добро пожаловать на наш сервер, {member}! Eleiśgenä Emes śeŕveŕte, {member}!')
+        await self.get_channel("793895190653173810").send(f'Добро пожаловать на наш сервер, {member}! Eleiśgenä Emes śeŕveŕte, {member}!')
 
     async def on_message(self, message: Message):
         author = message.author
