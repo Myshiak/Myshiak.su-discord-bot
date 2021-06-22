@@ -133,8 +133,22 @@ class Client_(Client):
                 roles[str(role)] = role
             if 'админ' in roles:
                 chatId = findall('\d+', message.content)[0]
-                await message.channel.send(embed=Embed(title='Мут канала', description=f'Канал <#{chatId}> замьючен', color=0xFFFF00))
-                self.muted_channels_list.append(chatId)
+                if chatId == '793895190653173810':
+                    await message.channel.send('Вы не можете замутить основной канал')
+                else:
+                    await message.channel.send(embed=Embed(title='Мут канала', description=f'Канал <#{chatId}> замьючен', color=0xFFFF00))
+                    self.muted_channels_list.append(chatId)
+            else:
+                await message.channel.send(f'{author.mention}, только админы могут использовать эту команду!')
+        elif match(r'!размут <#\d+>', content):
+            roles = {}
+            for role in message.author.roles:
+                roles[str(role)] = role
+            if 'админ' in roles:
+                chatId = findall('\d+', message.content)[0]
+                await message.channel.send(embed=Embed(title='Разут канала', description=f'Канал <#{chatId}> размьючен', color=0xFFFF00))
+                if chatId in self.muted_channels_list:
+                    self.muted_channels_list.remove(chatId)
             else:
                 await message.channel.send(f'{author.mention}, только админы могут использовать эту команду!')
         else:
