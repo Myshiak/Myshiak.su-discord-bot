@@ -1,9 +1,9 @@
 from os import system, getenv
 system('pip install requests discord.py fuzzywuzzy')
 from requests import get
-from discord import Client, File
-from discord import utils
+from discord import Client, File, utils, Embed
 from discord.message import Message
+from asyncio import sleep
 from random import choice
 from re import findall, match  # from playsound import playsound
 from youtube import allVideos
@@ -51,7 +51,8 @@ class Client_(Client):
         print(f'[INFO] logged in as @{self.user}')
 
     async def on_member_join(self, member):
-        await self.get_channel("793895190653173810").send(f'Добро пожаловать на наш сервер, {member}! Eleiśgenä Emes śeŕveŕte, {member}!')
+        
+        await self.get_channel("793895190653173810").send(embed=Embed(title=f'{member} вступил на наш сервер', description=f'Добро пожаловать на наш сервер, {member}! Eleiśgenä Emes śeŕveŕte, {member}!'))
 
     async def on_message(self, message: Message):
         author = message.author
@@ -62,26 +63,28 @@ class Client_(Client):
         if content.lower() == "!бот":
             await message.channel.send(choice(['Да / Hes', "Ага / Ugju", "Чем могу помочь? / Kau kunem te luośo?", "Я тут / Hestem jeŕy"]))
         elif content == '!команды':
-            await message.channel.send('Мои команды:\n!бот\n!команды-вывести команды\n!лимит спама [число сообщений]-установить лимит спама(для админов)\n!информация-информация о сервере и боте\n!ава - вывести аватар\n!курс валюты [код валюты] - вывести курс валюты к рублю\n\n')
+            await message.channel.send(embed=Embed(title='Мои команды:', description='\n!бот\n!команды-вывести команды\n!лимит спама [число сообщений]-установить лимит спама(для админов)\n!инфо-информация о сервере и боте\n!ава - вывести аватар\n!курс валюты [код валюты] - вывести курс валюты к рублю\n\n'))
         elif content == '!инфо':
-            await message.channel.send('Эта функция пока не доработана')
+            await message.channel.send('Эта команда находится в разработке')
         elif content == '!ава':
-            await message.channel.send(message.author.avatar_url)
+            e = Embed(title=f'Аватарка {message.author}', description='')
+            e.set_image(url=message.author.avatar_url)
+            await message.channel.send(embed=e)
         elif match(r'!курс валюты [a-zA-Z]{3}', content.lower()):
             currency = str(findall(r'[a-zA-Z]{3}', content)[0]).upper()
             try:
-                await message.channel.send(str(valcursed(currency)) + ' ₽')
+                await message.channel.send(embed=Embed(title=f'Курс валюты {currency} к рублю:', description=str(valcursed(currency)) + ' ₽'))
             except KeyError:
                 await message.channel.send(f"Валюты {currency} нет в списке")
         elif match(r'!лимит спама \d+', str(content)):
             roles = {}
             for role in message.author.roles:
-                roles[str(role)] = role  # !!!можно использовать str(role.mention)
+                roles[str(role)] = role
             if 'админ' in roles:
                 limit = int(str(content).replace('!лимит спама ', ''))
                 if limit > 0:
                     self.spamLimit = int(str(content).replace('!лимит спама ', ''))
-                    await message.channel.send(f'Лимит спама: {str(content).replace("!лимит спама ", "")} успешно установлен!')
+                    await message.channel.send(embed=Embed(title='Лимит спама', description=f'Лимит спама: {str(content).replace("!лимит спама ", "")} успешно установлен!'))
                 else:
                     await message.channel.send('Лимит спама должен быть больше 0')
             else:
@@ -94,9 +97,9 @@ class Client_(Client):
                 limit = int(str(content).replace('!очистить ', ''))
                 if limit > 0:
                     await message.channel.purge(limit=limit)
-                    await message.channel.send(f'Очищено {limit} сообщений')
+                    await message.channel.send(embed=Embed(title='Очистка', description=f'Очищено {limit} сообщений'))
                 else:
-                    await message.channel.send('Аогумент должен быть больше 0')
+                    await message.channel.send('Аргумент должен быть больше 0')
             else:
                 await message.channel.send(f'{author.mention}, только админы могут использовать эту команду!')
         elif content == '!стоп':
@@ -119,8 +122,8 @@ class Client_(Client):
             for i in self.videos_list:
                 if ratio(i[2].lower(), cont.lower()) > 30:
                     has = True
-                    statistic = f'%Статистика%\nНазвание: {i[2]}\nСсылка: {i[0]}\nID: {i[1]}\nДата: {i[3]}\nПросмотры: {i[4].replace("viewCount ", "")}\nЛайки: {i[5].replace("likeCount ", "")}\nДизлайки: {i[6].replace("dislikeCount ", "")}\nКомментарии: {i[8].replace("commentCount ", "")}'
-                    await message.channel.send(statistic)
+                    statistic = f'Название: {i[2]}\nСсылка: {i[0]}\nID: {i[1]}\nДата: {i[3]}\nПросмотры: {i[4].replace("viewCount ", "")}\nЛайки: {i[5].replace("likeCount ", "")}\nДизлайки: {i[6].replace("dislikeCount ", "")}\nКомментарии: {i[8].replace("commentCount ", "")}'
+                    await message.channel.send(embed=Embed(title='Статистика', description=statistic))
                     break
             if not has:
                 await message.channel.send(f'Видео "{cont}" не найдено на канале')
@@ -131,7 +134,9 @@ class Client_(Client):
                 self.spam = []
             elif str(message.channel) in self.muted_channels_list:
                 await message.delete()
-
+            elif (str(message.content) == 'Пожалуйста, подождите...' or str(message.content) == 'Список видео с канала получен') and str(message.author) == 'Hydra.su#8971'
+                await sleep(1)
+                await message.delete()
 
 if __name__ == '__main__':
     Client_().run(getenv('TOKEN'))
