@@ -134,7 +134,7 @@ class Client_(Client):
                 self.spam = []
             elif str(message.channel) in self.muted_channels_list:
                 await message.delete()
-            elif (str(message.content) == 'Пожалуйста, подождите...' or str(message.content) == 'Список видео с канала получен') and str(message.author) == 'Hydra.su#8971'
+            elif (str(message.content) == 'Пожалуйста, подождите...' or str(message.content) == 'Список видео с канала получен') and str(message.author) == 'Hydra.su#8971':
                 await sleep(1)
                 await message.delete()
 
