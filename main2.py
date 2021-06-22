@@ -146,7 +146,7 @@ class Client_(Client):
                 roles[str(role)] = role
             if 'админ' in roles:
                 chatId = findall('\d+', message.content)[0]
-                await message.channel.send(embed=Embed(title='Разут канала', description=f'Канал <#{chatId}> размьючен', color=0xFFFF00))
+                await message.channel.send(embed=Embed(title='Размут канала', description=f'Канал <#{chatId}> размьючен', color=0xFFFF00))
                 if chatId in self.muted_channels_list:
                     self.muted_channels_list.remove(chatId)
             else:
