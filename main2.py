@@ -6,7 +6,7 @@ from discord.message import Message
 from asyncio import sleep
 from random import choice
 from re import findall, match
-from Parsing.youtube import allVideos
+from youtube import allVideos
 from fuzzywuzzy.fuzz import ratio
 def isOneEl(l: list, limit: int) -> bool:
     ct = 0
