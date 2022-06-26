@@ -102,7 +102,7 @@ class Client_(Client):
             e.set_image(url=message.author.avatar_url)
             await message.channel.send(embed=e)
         elif match(r'!currency rate [a-zA-Z]{3}', content.lower()):
-            currency = str(findall(r'[a-zA-Z]{3}', content)[0]).upper()
+            currency = content[15:].upper()
             try:
                 await message.channel.send(
                     embed=Embed(title=f'{currency} to ruble exchange rate:', description=str(valcursed(currency)) + ' ₽',
