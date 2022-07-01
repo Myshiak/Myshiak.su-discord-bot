@@ -1,8 +1,8 @@
 from os import system, getenv
-system('pip install requests discord.py fuzzywuzzy')
 from requests import get
 from discord import Client, Embed, Member
 from discord.message import Message
+from pyshorteners import Shortener
 from asyncio import sleep
 from random import choice
 from re import findall, match
@@ -58,7 +58,7 @@ class Client_(Client):
             await message.channel.send(
                 choice(['Да / Hes', "Ага / Agja", "Чем могу помочь? / Kei kanem lauszuent?", "Я тут / Hestem jeray"]))
         elif content == '!help':
-            await message.channel.send(embed=Embed(title='Usage:',description='\n!bot\n!spam limit [number of messages]-set the spam limit(for staff)\n!info-information about the server and bot\n!avatar - avatar output\n!currency rate [currency code] - currency rate output\n!video [video\'s name] - information about a video from Myshiak.su\'s YouTube channel\n\n',color=0xFFFF00))
+            await message.channel.send(embed=Embed(title='Usage:',description='\n!bot\n!spam limit [number of messages]-set the spam limit(for staff)\n!info-information about the server and bot\n!avatar - avatar output\n!currency rate [currency code] - currency rate output\n!video [video\'s name] - information about a video from Myshiak.su\'s YouTube channel\n!shorten [link] - link shortening\n\n',color=0xFFFF00))
         elif content == '!info':
             roles = []
             channels = []
@@ -145,6 +145,8 @@ class Client_(Client):
                 quit()
             else:
                 await message.channel.send(f'{author.mention}, the command is only for staff!')
+        elif match(r'!shorten .+', content):
+            await message.channel.send(Shortener().tinyurl.short(content[9:]))
         elif match(r'!video .+', content):
             await message.channel.send('Please wait...')
             cont = content[7:]
@@ -205,7 +207,7 @@ class Client_(Client):
                     await message.channel.send('Проще позвонить, чем у кого-то занимать')
                 elif 'это я' == content.lower():
                     await message.channel.send('Головка от х*я')
-                elif isNotAllowedPhrases(content, notAllowedPhrases, 'sex') and str(message.author) != 'Hydra.su#8971':
+                elif isNotAllowedPhrases(content, notAllowedPhrases, 'sex') and str(message.author) != 'Myshiak.admin#8971':
                     e = Embed(title=str(author), description='Сейчас ' + choice(['♂boss of this gym♂', '♂dungeon master♂', '♂leatherman♂']) + ' сделает Вам' + choice(['♂gay sex♂', '♂fucking cumming♂', '♂Fisting♂'])+' за разговоры о ♂sex♂\'е', color=0xFFFF00)
                     e.set_image(url=choice(['https://media.tenor.com/images/a8e6991c5b7cef9ea1d8d4d4d7ec6de5/tenor.gif', 'https://media.tenor.com/images/26726e20154d5b8c089fab1e02e626a3/tenor.gif', 'https://media.tenor.com/images/0d15b034b3b9f551988513759fb0bf79/tenor.gif']))
                     await message.channel.send(embed=e)
