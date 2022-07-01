@@ -57,7 +57,7 @@ class Client_(Client):
             await message.channel.send(
                 choice(['Да / Hes', "Ага / Agja", "Чем могу помочь? / Kei kanem lauszuent?", "Я тут / Hestem jeray"]))
         elif content == '!help':
-            await message.channel.send(embed=Embed(title='Usage:',description='\n!bot\n!spam limit [number of messages]-set the spam limit(for staff)\n!info-information about the server and bot\n!avatar - avatar output\n!currency rate [currency code] - currency rate output\n!video [video\'s name] - information about a video from Myshiak.su\'s YouTube channel\n!shorten [link] - link shortening\n\n',color=0xFFFF00))
+            await message.channel.send(embed=Embed(title='Usage:',description='\n!bot\n!spam limit [number of messages]-set the spam limit(for staff)\n!info-information about the server and bot\n!avatar - avatar output\n!currency rate [currency code] - currency rate output\n!video [video\'s name] - information about a video from Myshiak.su\'s YouTube channel\n\n',color=0xFFFF00))
         elif content == '!info':
             roles = []
             channels = []
