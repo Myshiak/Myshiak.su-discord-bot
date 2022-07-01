@@ -2,7 +2,6 @@ from os import system, getenv
 from requests import get
 from discord import Client, Embed, Member
 from discord.message import Message
-from pyshorteners import Shortener
 from asyncio import sleep
 from random import choice
 from re import findall, match
@@ -145,8 +144,6 @@ class Client_(Client):
                 quit()
             else:
                 await message.channel.send(f'{author.mention}, the command is only for staff!')
-        elif match(r'!shorten .+', content):
-            await message.channel.send(Shortener().tinyurl.short(content[9:]))
         elif match(r'!video .+', content):
             await message.channel.send('Please wait...')
             cont = content[7:]
