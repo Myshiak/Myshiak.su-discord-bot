@@ -4,4 +4,3 @@ websockets
 chardet
 fuzzywuzzy
 requests
-pyshorteners
