@@ -7,6 +7,7 @@ from random import choice
 from re import findall, match
 from youtube import allVideos
 from fuzzywuzzy.fuzz import ratio
+
 def isOneEl(l: list, limit: int) -> bool:
     ct = 0
     for i in l[::-1]:
@@ -14,19 +15,19 @@ def isOneEl(l: list, limit: int) -> bool:
             ct += 1
         else:
             break
-    if ct == limit:
-        return True
-    else:
-        return False
+    return ct == limit:
+
 def valcursed(v):
     r = get('https://www.cbr-xml-daily.ru/daily_json.js')
     data = r.json()
     return data['Valute'][v]['Value']
+
 def isNotAllowedPhrases(text, phrases, theme):
     for i in phrases[theme]:
         if i in text:
             return True
     return False
+
 class Client_(Client):
     spam = []
     muted_channels_list = ['823140330685202432', '824549955900932096']
