@@ -15,7 +15,7 @@ def isOneEl(l: list, limit: int) -> bool:
             ct += 1
         else:
             break
-    return ct == limit:
+    return ct == limit
 
 def valcursed(v):
     r = get('https://www.cbr-xml-daily.ru/daily_json.js')
